@@ -1,3 +1,5 @@
+#include "RenderTexture.hpp"
+#include "game_renderer.hpp"
 #include "game_resources.hpp"
 #include "keybinds.hpp"
 #include "raylib-cpp.hpp"
@@ -10,6 +12,7 @@ int main() {
 
   window.SetTargetFPS(60);
 
+  GameRenderer::Init(1280, 720);
   GameResources::LoadResources();
   sceneManager.SetScene(std::make_unique<MainMenu>());
 
@@ -19,11 +22,17 @@ int main() {
     sceneManager.Update();
 
     // Drawing Logic Here =======================
+    GameRenderer::Begin();
+
+    sceneManager.Draw();
+
+    GameRenderer::End();
 
     window.BeginDrawing();
     window.ClearBackground(BLACK);
 
     sceneManager.Draw();
+    GameRenderer::Flip({});
 
     window.EndDrawing();
   }
