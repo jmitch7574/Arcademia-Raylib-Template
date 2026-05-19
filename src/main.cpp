@@ -1,3 +1,4 @@
+#include "game_resources.hpp"
 #include "keybinds.hpp"
 #include "raylib-cpp.hpp"
 #include "raylib.h"
@@ -9,6 +10,7 @@ int main() {
 
   window.SetTargetFPS(60);
 
+  GameResources::LoadResources();
   sceneManager.SetScene(std::make_unique<MainMenu>());
 
   while (!window.ShouldClose() && !sceneManager.shouldExit) {
