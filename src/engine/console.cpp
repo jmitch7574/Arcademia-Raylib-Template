@@ -5,7 +5,19 @@
 #include "raylib.h"
 #include <cstring>
 
-Console::Console() { messages = std::vector<Message>(); }
+Console::Console() {
+  messages = std::vector<Message>();
+
+  // Add List Command
+  RegisterCommand("list", [this](const std::vector<std::string> &args) {
+    Log("Available Commands: ");
+
+    for (auto cmd = commandRegistry.begin(); cmd != commandRegistry.end();
+         ++cmd) {
+      Log(TextFormat("> %s", cmd->first.c_str()));
+    }
+  });
+}
 
 Console::~Console(void) {};
 
