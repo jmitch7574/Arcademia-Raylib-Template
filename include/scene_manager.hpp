@@ -12,15 +12,19 @@ public:
 
   SceneManager() {
     Console::Get().RegisterCommand(
-        "ls", [this](const std::vector<std::string> &args) {
-          if (args.empty())
-            return;
+        {.name        = "ls",
+         .description = "Load Scene",
+         .arguments   = {"scene_name"},
+         .callback    = [this](const std::vector<std::string> &args) {
+           if (args.empty())
+             return;
 
-          if (args[0] == "main" || args[0] == "menu")
-            this->SetScene(std::make_unique<MainMenu>());
-          if (args[0] == "play")
-            this->SetScene(std::make_unique<PlayScene>());
-        });
+           if (args[0] == "main" || args[0] == "menu")
+             this->SetScene(std::make_unique<MainMenu>());
+
+           if (args[0] == "play")
+             this->SetScene(std::make_unique<PlayScene>());
+         }});
   };
 
   ~SceneManager() {}

@@ -4,19 +4,29 @@
 #include "keybinds.hpp"
 #include "raylib.h"
 #include <cstring>
+#include <sstream>
 
 Console::Console() {
   messages = std::vector<Message>();
 
   // Add List Command
-  RegisterCommand("list", [this](const std::vector<std::string> &args) {
-    Log("Available Commands: ");
+  RegisterCommand({.name        = "list",
+                   .description = "List all available commands",
+                   .callback    = [this](const std::vector<std::string> &args) {
+                     Log("Available Commands: ");
 
-    for (auto cmd = commandRegistry.begin(); cmd != commandRegistry.end();
-         ++cmd) {
-      Log(TextFormat("> %s", cmd->first.c_str()));
-    }
-  });
+                     for (const auto &[name, cmd] : commandRegistry) {
+                       std::string argsStr;
+
+                       for (const auto &argument : cmd.arguments) {
+                         argsStr += TextFormat("[%s]", argument.c_str());
+                       }
+
+                       Log(TextFormat("> %s %s - %s", name.c_str(),
+                                      argsStr.c_str(),
+                                      cmd.description.c_str()));
+                     }
+                   }});
 }
 
 Console::~Console(void) {};
@@ -77,14 +87,13 @@ void Console::Draw() {
   }
 }
 
-void Console::RegisterCommand(const std::string &name,
-                              CommandCallback callback) {
-
-  if (commandRegistry.contains(name)) {
-    Error(TextFormat("Duplicate Command Being Registered: %s", name.c_str()));
+void Console::RegisterCommand(const ConsoleCommand &command) {
+  if (commandRegistry.contains(command.name)) {
+    Error(TextFormat("Duplicate Command Being Registered: %s",
+                     command.name.c_str()));
   }
 
-  commandRegistry[name] = callback;
+  commandRegistry[command.name] = command;
 }
 
 void Console::UnregisterCommand(const std::string &name) {
@@ -129,7 +138,7 @@ void Console::ProcessCommand(char command[]) {
 
   auto it = commandRegistry.find(commandName);
   if (it != commandRegistry.end()) {
-    it->second(args);
+    it->second.callback(args);
   } else {
     messages.push_back({"Unknown command: " + commandName, ERROR});
   }
