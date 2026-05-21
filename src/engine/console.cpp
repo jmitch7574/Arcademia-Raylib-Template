@@ -73,17 +73,15 @@ void Console::Update() {
 }
 
 void Console::Draw() {
-  raylib::DrawText(currentInput, 20, GameRenderer::GetHeight() - 30, 20, WHITE);
+  raylib::DrawText(currentInput, 20, GetScreenHeight() - 30, 20, WHITE);
 
-  DrawLineEx(Vector2(0, GameRenderer::GetHeight() - 40),
-             Vector2(GameRenderer::GetWidth(), GameRenderer::GetHeight() - 40),
-             5, RAYWHITE);
+  DrawLineEx(Vector2(0, GetScreenHeight() - 40),
+             Vector2(GetScreenWidth(), GetScreenHeight() - 40), 5, RAYWHITE);
 
   for (int i = messages.size() - 1; i >= 0; i--) {
     raylib::DrawText(messages[i].string, 20,
-                     GameRenderer::GetHeight() -
-                         (30 * ((messages.size() - i) + 2)),
-                     20, Console::GetMessageColor(messages[i].level));
+                     GetScreenHeight() - (30 * ((messages.size() - i) + 2)), 20,
+                     Console::GetMessageColor(messages[i].level));
   }
 }
 
