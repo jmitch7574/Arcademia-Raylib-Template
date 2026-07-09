@@ -1,5 +1,7 @@
 #pragma once
-#include "raylib-cpp.hpp"
+
+#include "raylib.h"
+#include <iostream>
 
 class Scene {
 public:
@@ -24,7 +26,7 @@ private:
   bool acceptPressed = false;
   enum class MenuOption { Play, Quit };
   MenuOption selectedOption = MenuOption::Play;
-  raylib::Texture arcademiaTex;
+  Texture arcademiaTex;
 };
 
 class PlayScene : public Scene {

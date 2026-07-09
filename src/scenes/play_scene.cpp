@@ -1,13 +1,9 @@
 #include "keybinds.hpp"
-#include "raylib-cpp.hpp"
+#include "raylib.h"
 #include "scene.hpp"
 #include "scene_manager.hpp"
 
-PlayScene::PlayScene() {
-  // Load Arcademia Logo
-  raylib::Texture arcademiaTex =
-      raylib::Texture("resources/Arcademia_Logo.png");
-}
+PlayScene::PlayScene() {}
 
 PlayScene::~PlayScene(void) {}
 

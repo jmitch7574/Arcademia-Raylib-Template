@@ -40,15 +40,8 @@ if(NOT raylib_FOUND)
     FetchContent_MakeAvailable(raylib)
 endif()
 
-# raylib-cpp
-find_package(raylib_cpp QUIET)
-if(NOT raylib_cpp_FOUND)
     FetchContent_Declare(
-        raylib_cpp
-        GIT_REPOSITORY https://github.com/RobLoach/raylib-cpp.git
-        GIT_TAG v6.0.0
     )
-    FetchContent_MakeAvailable(raylib_cpp)
 endif()
 
 # ---------------------------------------------------------------------------
@@ -61,7 +54,6 @@ add_executable(${PROJECT_NAME} ${SOURCES})
 
 target_include_directories(${PROJECT_NAME} PRIVATE include)
 
-target_link_libraries(${PROJECT_NAME} PRIVATE raylib raylib_cpp)
 
 set_target_properties(${PROJECT_NAME} PROPERTIES
     CXX_STANDARD          20
@@ -104,7 +96,6 @@ add_custom_target(run
 set(CLANGD_FLAGS
     "-I${CMAKE_SOURCE_DIR}/include"
     "-I${CMAKE_BINARY_DIR}/_deps/raylib-src/src"
-    "-I${CMAKE_BINARY_DIR}/_deps/raylib_cpp-src/include"
     "-std=c++20"
 )
 list(JOIN CLANGD_FLAGS "\n" CLANGD_FLAGS_STR)

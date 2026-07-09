@@ -1,7 +1,7 @@
-#include "raylib-cpp.hpp"
+#include "raylib.h"
 
 class GameResources {
 public:
   static void LoadResources();
-  static raylib::Shader Blur;
+  static Shader Blur;
 };

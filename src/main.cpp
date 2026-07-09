@@ -1,18 +1,16 @@
-#include "RenderTexture.hpp"
 #include "console.hpp"
 #include "game_renderer.hpp"
 #include "game_resources.hpp"
 #include "keybinds.hpp"
-#include "raylib-cpp.hpp"
 #include "raylib.h"
 #include "scene.hpp"
 #include "scene_manager.hpp"
 #include <vector>
 
 int main() {
-  raylib::Window window = raylib::Window(1280, 720, "Game ");
+  InitWindow(1280, 720, "Game ");
 
-  window.SetTargetFPS(60);
+  SetTargetFPS(60);
 
   GameRenderer::Init(1280, 720);
   GameResources::LoadResources();
@@ -22,7 +20,7 @@ int main() {
 #endif
 
   sceneManager.SetScene(std::make_unique<MainMenu>());
-  while (!window.ShouldClose() && !sceneManager.shouldExit) {
+  while (!WindowShouldClose() && !sceneManager.shouldExit) {
     // Update Logic Here ========================
     if (!Console::Get().enabled)
       sceneManager.Update();
@@ -35,8 +33,8 @@ int main() {
 
     GameRenderer::End();
 
-    window.BeginDrawing();
-    window.ClearBackground(BLACK);
+    BeginDrawing();
+    ClearBackground(BLACK);
 
     if (Console::Get().enabled) {
       GameRenderer::Flip({&GameResources::Blur});
@@ -48,7 +46,7 @@ int main() {
       GameRenderer::Flip({});
     }
 
-    window.EndDrawing();
+    EndDrawing();
   }
 
   CloseWindow();

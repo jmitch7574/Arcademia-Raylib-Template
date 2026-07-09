@@ -14,9 +14,9 @@ void GameRenderer::Begin() {
 
 void GameRenderer::End() { EndTextureMode(); }
 
-void GameRenderer::Flip(std::vector<raylib::Shader *> shaders) {
+void GameRenderer::Flip(std::vector<Shader *> shaders) {
   for (int i = 0; i < shaders.size(); i++) {
-    shaders[i]->BeginMode();
+    BeginShaderMode(*shaders[i]);
   }
 
   DrawTextureRec(tex.texture,
@@ -24,7 +24,7 @@ void GameRenderer::Flip(std::vector<raylib::Shader *> shaders) {
                  Vector2(0, 0), WHITE);
 
   for (int j = 0; j < shaders.size(); j++) {
-    shaders[j]->EndMode();
+    EndShaderMode();
   }
 }
 

@@ -1,5 +1,5 @@
 #include "keybinds.hpp"
-#include "raylib-cpp.hpp"
+#include "raylib.h"
 #include "scene.hpp"
 #include "scene_manager.hpp"
 
@@ -11,12 +11,12 @@ MainMenu::MainMenu() {
   GuiSetStyle(DEFAULT, TEXT_SIZE, 64);
 
   // Load Arcademia Logo
-  arcademiaTex = raylib::Texture("resources/Arcademia_Logo.png");
+  arcademiaTex = LoadTexture("resources/Arcademia_Logo.png");
 }
 
 MainMenu::~MainMenu(void) {
   acceptPressed = false;
-  arcademiaTex.Unload();
+  UnloadTexture(arcademiaTex);
 }
 
 void MainMenu::Update() {
@@ -33,7 +33,7 @@ void MainMenu::Update() {
 void MainMenu::Draw() {
   ClearBackground(BLACK);
 
-  arcademiaTex.Draw((1280 - arcademiaTex.width) / 2, 200, WHITE);
+  DrawTexture(arcademiaTex, (1280 - arcademiaTex.width) / 2, 200, WHITE);
 
   GuiSetState(selectedOption == MenuOption::Play ? STATE_FOCUSED
                                                  : STATE_NORMAL);

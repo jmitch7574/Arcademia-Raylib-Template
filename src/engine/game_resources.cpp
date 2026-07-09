@@ -1,17 +1,17 @@
 #include "game_resources.hpp"
-#include "ShaderUnmanaged.hpp"
 #include "game_renderer.hpp"
+#include "raylib.h"
 
-raylib::Shader GameResources::Blur;
+Shader GameResources::Blur;
 
 void GameResources::LoadResources() {
   Blur          = LoadShader(0, "resources/shaders/blur.fs");
-  int widthLoc  = Blur.GetLocation("renderWidth");
-  int heightLoc = Blur.GetLocation("renderHeight");
+  int widthLoc  = GetShaderLocation(Blur, "renderWidth");
+  int heightLoc = GetShaderLocation(Blur, "renderHeight");
 
   int width  = GameRenderer::GetWidth();
   int height = GameRenderer::GetWidth();
 
-  Blur.SetValue(widthLoc, &width, RL_SHADER_UNIFORM_INT);
-  Blur.SetValue(heightLoc, &height, RL_SHADER_UNIFORM_INT);
+  SetShaderValue(Blur, widthLoc, &width, SHADER_UNIFORM_INT);
+  SetShaderValue(Blur, heightLoc, &height, SHADER_UNIFORM_INT);
 }

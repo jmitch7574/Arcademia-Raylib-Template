@@ -1,10 +1,7 @@
 #include "console.hpp"
-#include "Functions.hpp"
-#include "game_renderer.hpp"
 #include "keybinds.hpp"
 #include "raylib.h"
 #include <cstring>
-#include <sstream>
 
 Console::Console() {
   messages = std::vector<Message>();
@@ -73,15 +70,15 @@ void Console::Update() {
 }
 
 void Console::Draw() {
-  raylib::DrawText(currentInput, 20, GetScreenHeight() - 30, 20, WHITE);
+  DrawText(currentInput, 20, GetScreenHeight() - 30, 20, WHITE);
 
   DrawLineEx(Vector2(0, GetScreenHeight() - 40),
              Vector2(GetScreenWidth(), GetScreenHeight() - 40), 5, RAYWHITE);
 
   for (int i = messages.size() - 1; i >= 0; i--) {
-    raylib::DrawText(messages[i].string, 20,
-                     GetScreenHeight() - (30 * ((messages.size() - i) + 2)), 20,
-                     Console::GetMessageColor(messages[i].level));
+    DrawText(messages[i].string.c_str(), 20,
+             GetScreenHeight() - (30 * ((messages.size() - i) + 2)), 20,
+             Console::GetMessageColor(messages[i].level));
   }
 }
 
