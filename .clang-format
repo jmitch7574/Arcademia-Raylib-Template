@@ -4,3 +4,5 @@ AlignConsecutiveAssignments:
   AcrossComments: false
   AlignCompound: false
   PadOperators: true
+
+NamespaceIndentation: All

@@ -1,38 +1,21 @@
 #pragma once
-#include "console.hpp"
+#include "inspector.hpp"
 #include "scene.hpp"
 #include <memory>
 
-class SceneManager {
+class SceneManager : IInspector {
 private:
   std::unique_ptr<Scene> currentScene;
 
 public:
   bool shouldExit = false;
 
-  SceneManager() {
-    Console::Get().RegisterCommand(
-        {.name        = "ls",
-         .description = "Load Scene",
-         .arguments   = {"scene_name"},
-         .callback    = [this](const std::vector<std::string> &args) {
-           if (args.empty())
-             return;
-
-           if (args[0] == "main" || args[0] == "menu")
-             this->SetScene(std::make_unique<MainMenu>());
-
-           if (args[0] == "play")
-             this->SetScene(std::make_unique<PlayScene>());
-         }});
-  };
+  SceneManager() {};
 
   ~SceneManager() {}
 
   void SetScene(std::unique_ptr<Scene> scene) {
     currentScene = std::move(scene);
-    Console::Get().Log(
-        TextFormat("Loaded Scene: %s", currentScene->GetName().c_str()));
   }
 
   void Update() {
@@ -44,6 +27,9 @@ public:
     if (currentScene)
       currentScene->Draw();
   }
+
+  void DrawInspector() override;
+  const char *GetName() const override { return "Scene"; }
 
   void CloseGame() { shouldExit = true; }
 };

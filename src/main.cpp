@@ -1,8 +1,10 @@
-#include "console.hpp"
 #include "game_renderer.hpp"
 #include "game_resources.hpp"
+#include "imgui.h"
+#include "inspector.hpp"
 #include "keybinds.hpp"
 #include "raylib.h"
+#include "rlImGui.h"
 #include "scene.hpp"
 #include "scene_manager.hpp"
 #include <vector>
@@ -19,12 +21,18 @@ int main() {
   sceneManager.SetScene(std::make_unique<MainMenu>());
 #endif
 
+  Inspector::Init();
+
   sceneManager.SetScene(std::make_unique<MainMenu>());
+
   while (!WindowShouldClose() && !sceneManager.shouldExit) {
     // Update Logic Here ========================
-    if (!Console::Get().enabled)
+
+    if (IsKeyPressed(KEYBINDS.inspector.key))
+      Inspector::Toggle();
+
+    if (!Inspector::ShouldPauseGame())
       sceneManager.Update();
-    Console::Get().Update();
 
     // Drawing Logic Here =======================
     GameRenderer::Begin();
@@ -36,18 +44,22 @@ int main() {
     BeginDrawing();
     ClearBackground(BLACK);
 
-    if (Console::Get().enabled) {
+    if (Inspector::ShouldPauseGame()) {
       GameRenderer::Flip({&GameResources::Blur});
       DrawRectangleRec(
           Rectangle(0, 0, GameRenderer::GetWidth(), GameRenderer::GetHeight()),
           Color(0, 0, 0, 180));
-      Console::Get().Draw();
     } else {
       GameRenderer::Flip({});
     }
 
+    if (Inspector::IsOpen())
+      Inspector::DrawInspector();
+
     EndDrawing();
   }
+
+  Inspector::Shutdown();
 
   CloseWindow();
 

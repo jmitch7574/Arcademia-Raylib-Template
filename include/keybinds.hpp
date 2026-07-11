@@ -13,7 +13,7 @@ struct ExampleKeybinds {
   Keybind moveDown;
   Keybind primary;
   Keybind secondary;
-  Keybind console;
+  Keybind inspector;
 };
 
 #ifdef ARCADEMIA
@@ -77,7 +77,7 @@ inline constexpr ExampleKeybinds KEYBINDS = {
     .moveDown  = P1_JOYSTICK_DOWN,
     .primary   = P1_A,
     .secondary = P1_B,
-    .console   = {KEY_GRAVE, "Backtick"}};
+    .inspector = {KEY_GRAVE, "Backtick"}};
 
 #else
 
@@ -92,6 +92,6 @@ inline constexpr ExampleKeybinds KEYBINDS = {
     .moveDown  = {KEY_S, "S"},
     .primary   = {KEY_ENTER, "Enter"},
     .secondary = {KEY_BACKSPACE, "Backspace"},
-    .console   = {KEY_GRAVE, "Backtick"}} ;
+    .inspector = {KEY_GRAVE, "Backtick"}};
 
 #endif

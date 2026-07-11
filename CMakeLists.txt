@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.14)
 project(arcademia_template)
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
-set(FETCHCONTENT_QUIET FALSE CACHE BOOL "" FORCE)
+set(FETCHCONTENT_QUIET TRUE CACHE BOOL "" FORCE) 
 include(FetchContent)
 
 # ---------------------------------------------------------------------------
@@ -40,20 +40,57 @@ if(NOT raylib_FOUND)
     FetchContent_MakeAvailable(raylib)
 endif()
 
+# imgui
+find_package(imgui QUIET)
+if(NOT imgui_FOUND) # <--- FIXED: Case-sensitivity
     FetchContent_Declare(
+        imgui
+        GIT_REPOSITORY https://github.com/ocornut/imgui
+        GIT_TAG v1.92.7
+        GIT_SHALLOW 1
     )
+    FetchContent_MakeAvailable(imgui)
+endif()
+
+# raylib - imgui
+find_package(rlimgui QUIET)
+if(NOT rlimgui_FOUND) # <--- FIXED: Case-sensitivity
+    FetchContent_Declare(
+        rlimgui
+        GIT_REPOSITORY https://github.com/raylib-extras/rlImGui
+        GIT_TAG Raylib_6_0
+        GIT_SHALLOW 1
+    )
+    FetchContent_MakeAvailable(rlimgui)
 endif()
 
 # ---------------------------------------------------------------------------
 # Target
 # ---------------------------------------------------------------------------
 
+# Build imgui
+add_library(imgui STATIC
+    ${imgui_SOURCE_DIR}/imgui.cpp
+    ${imgui_SOURCE_DIR}/imgui_draw.cpp
+    ${imgui_SOURCE_DIR}/imgui_tables.cpp
+    ${imgui_SOURCE_DIR}/imgui_widgets.cpp
+    ${imgui_SOURCE_DIR}/imgui_demo.cpp
+)
+target_include_directories(imgui PUBLIC ${imgui_SOURCE_DIR})
+
+# Link rlimgui
+add_library(rlimgui STATIC ${rlimgui_SOURCE_DIR}/rlImGui.cpp)
+target_include_directories(rlimgui PUBLIC ${rlimgui_SOURCE_DIR})
+target_link_libraries(rlimgui PUBLIC raylib imgui)
+
+# Source Files
 file(GLOB_RECURSE SOURCES CONFIGURE_DEPENDS src/*.cpp)
 
 add_executable(${PROJECT_NAME} ${SOURCES})
 
 target_include_directories(${PROJECT_NAME} PRIVATE include)
 
+target_link_libraries(${PROJECT_NAME} PRIVATE raylib rlimgui) 
 
 set_target_properties(${PROJECT_NAME} PROPERTIES
     CXX_STANDARD          20
@@ -95,7 +132,9 @@ add_custom_target(run
 # ---------------------------------------------------------------------------
 set(CLANGD_FLAGS
     "-I${CMAKE_SOURCE_DIR}/include"
-    "-I${CMAKE_BINARY_DIR}/_deps/raylib-src/src"
+    "-I${raylib_SOURCE_DIR}/src"
+    "-I${imgui_SOURCE_DIR}"
+    "-I${rlimgui_SOURCE_DIR}"
     "-std=c++20"
 )
 list(JOIN CLANGD_FLAGS "\n" CLANGD_FLAGS_STR)
