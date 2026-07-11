@@ -1,5 +1,6 @@
 #include "game_renderer.hpp"
 #include "raylib.h"
+#include "raymath.h"
 
 RenderTexture2D GameRenderer::tex;
 
@@ -19,9 +20,9 @@ void GameRenderer::Flip(std::vector<Shader *> shaders) {
     BeginShaderMode(*shaders[i]);
   }
 
-  DrawTextureRec(tex.texture,
-                 Rectangle(0, 0, tex.texture.width, -tex.texture.height),
-                 Vector2(0, 0), WHITE);
+  DrawTexturePro(tex.texture, Rectangle(0, 0, GetWidth(), -GetHeight()),
+                 Rectangle(0, 0, GetScreenWidth(), GetScreenHeight()),
+                 Vector2(0, 0), 0, WHITE);
 
   for (int j = 0; j < shaders.size(); j++) {
     EndShaderMode();
@@ -31,3 +32,10 @@ void GameRenderer::Flip(std::vector<Shader *> shaders) {
 int GameRenderer::GetWidth() { return tex.texture.width; }
 
 int GameRenderer::GetHeight() { return tex.texture.height; }
+
+Vector2 GameRenderer::GetScaledMousePosition() {
+  return Vector2Multiply(
+      GetMousePosition(),
+      Vector2Divide(Vector2(tex.texture.width, tex.texture.height),
+                    Vector2(GetScreenWidth(), GetScreenHeight())));
+}

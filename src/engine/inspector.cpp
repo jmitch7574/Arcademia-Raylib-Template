@@ -1,5 +1,7 @@
 #include "inspector.hpp"
+#include "game_renderer.hpp"
 #include "imgui.h"
+#include "raylib.h"
 #include "rlImGui.h"
 #include <time.h>
 #include <vector>
@@ -36,7 +38,7 @@ void Inspector::DrawInspector() {
   int width  = GetScreenWidth();
   int height = GetScreenHeight();
 
-  const int inspectorWidth = 300;
+  const int inspectorWidth = 400;
   const int consoleHeight  = 200;
 
   // Inspector goes right hand side
@@ -126,6 +128,15 @@ void Inspector::DrawInspector() {
 void Inspector::DrawEngineTab() {
   if (ImGui::BeginTabItem("Engine")) {
     ImGui::Checkbox("Pause when Open", &pauseWhenOpen);
+
+    ImGui::SeparatorText("Engine Info");
+    ImGui::Text("Mouse Position (Window): %f %f", GetMousePosition().x,
+                GetMousePosition().y);
+
+    ImGui::Text("Mouse Position (Internal): %f %f",
+                GameRenderer::GetScaledMousePosition().x,
+                GameRenderer::GetScaledMousePosition().y);
+
     ImGui::EndTabItem();
   }
 }

@@ -11,4 +11,5 @@ public:
   static void Flip(std::vector<Shader *> shaders);
   static int GetWidth();
   static int GetHeight();
+  static Vector2 GetScaledMousePosition();
 };

@@ -65,9 +65,8 @@ int main() {
 
     if (Inspector::ShouldPauseGame()) {
       GameRenderer::Flip({&GameResources::Blur});
-      DrawRectangleRec(
-          Rectangle(0, 0, GameRenderer::GetWidth(), GameRenderer::GetHeight()),
-          Color(0, 0, 0, 180));
+      DrawRectangleRec(Rectangle(0, 0, GetScreenWidth(), -GetScreenHeight()),
+                       Color(0, 0, 0, 180));
     } else {
       GameRenderer::Flip({});
     }
