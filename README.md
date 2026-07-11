@@ -12,7 +12,7 @@ This project was built to work seamlessly with [VSCode](https://code.visualstudi
 
 ### Running the Project
 
-A VSCode build task has been defined within this project which handles running CMake build commands and running your game. Using `CTRL + SHIFT + B` will allow you access a build menu with 4 options.
+A VSCode build task has been defined within this project which handles running CMake build commands and running your game. Using `CTRL + SHIFT + B` will allow you choose two ways to build your game, Build & Run Local and Build & Run Web.
 
 ![build-options](.md/builds.jpg)
 
@@ -24,6 +24,10 @@ Each of these build types expose a different set of compiler flags which can be 
 - **Arcademia_Debug:** ARCADEMIA, DEBUG
 
 *NOTE:* The first time running this project may take a few minutes depending on your internet connection, as CMake must pull raylib from source.
+
+*NOTE:* It is recommended that you only use the Debug and Release options when working with web builds.
+
+*NOTE:* If you want to support web builds it will require you maintain two sets of shaders, more info on the why and how this is done can be found [here](https://github.com/raysan5/raylib/blob/master/examples/shaders/shaders_model_shader.c)
 
 ## Features
 
