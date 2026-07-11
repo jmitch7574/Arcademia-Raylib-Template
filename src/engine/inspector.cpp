@@ -90,7 +90,21 @@ void Inspector::DrawInspector() {
     std::string fullMessage =
         TextFormat("[%s] : %s", timeString, message.string.c_str());
 
-    ImGui::TextUnformatted(fullMessage.c_str());
+    ImVec4 textColor;
+
+    switch (message.level) {
+    case ERROR:
+      textColor = ImVec4(1.0f, 0, 0, 1.0f);
+      break;
+    case WARNING:
+      textColor = ImVec4(1.0f, 1.0f, 0, 1.0f);
+      break;
+    case LOG:
+      textColor = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);
+      break;
+    }
+
+    ImGui::TextColored(textColor, fullMessage.c_str());
   }
 
   // Auto Scrolling Logic

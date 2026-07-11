@@ -18,6 +18,8 @@
 #define INTERNAL_HEIGHT 720
 
 int main() {
+  Inspector::Warn("Example Warning...");
+  Inspector::Error("Example Error...");
   Inspector::Log("Starting Game...");
 
   InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT, WINDOW_NAME);
