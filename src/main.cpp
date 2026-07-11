@@ -9,12 +9,29 @@
 #include "scene_manager.hpp"
 #include <vector>
 
+#define WINDOW_WIDTH 1280
+#define WINDOW_HEIGHT 720
+#define WINDOW_NAME "Arcademia Game"
+#define TARGET_FPS 60
+
+#define INTERNAL_WIDTH 1280
+#define INTERNAL_HEIGHT 720
+
 int main() {
-  InitWindow(1280, 720, "Game ");
+  Inspector::Log("Starting Game...");
 
-  SetTargetFPS(60);
+  InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT, WINDOW_NAME);
 
-  GameRenderer::Init(1280, 720);
+  SetTargetFPS(TARGET_FPS);
+
+  Inspector::Log(TextFormat("Game Window created at %dx%d@%dfps", WINDOW_WIDTH,
+                            WINDOW_HEIGHT, TARGET_FPS));
+
+  GameRenderer::Init(INTERNAL_WIDTH, INTERNAL_HEIGHT);
+
+  Inspector::Log(TextFormat("Internal Render Texture initialised at %dx%d",
+                            INTERNAL_WIDTH, INTERNAL_HEIGHT));
+
   GameResources::LoadResources();
 
 #ifdef RELEASE

@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+#include <time.h>
 #include <vector>
 
 struct IInspector;
@@ -21,6 +22,12 @@ namespace Inspector {
   void DrawInspector();
   void DrawEngineTab();
 
+  // Debug Console
+  void Log(const char *message);
+  void Warn(const char *message);
+  void Error(const char *message);
+  time_t GetTimestamp();
+
   // Inspector State
   bool IsOpen();
   bool ShouldPauseGame();
@@ -39,6 +46,17 @@ struct IInspector {
 namespace {
   bool isOpen;
   bool pauseWhenOpen = true;
+  bool autoScroll    = true;
+
+  enum MessageLevel { LOG, WARNING, ERROR };
+
+  struct Message {
+    std::string string;
+    MessageLevel level;
+    time_t timestamp;
+  };
+
+  std::vector<Message> messages;
 
   //   struct InspectorRegistry {
   //     std::string key;

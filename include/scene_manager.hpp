@@ -1,5 +1,6 @@
 #pragma once
 #include "inspector.hpp"
+#include "raylib.h"
 #include "scene.hpp"
 #include <memory>
 
@@ -15,6 +16,7 @@ public:
   ~SceneManager() {}
 
   void SetScene(std::unique_ptr<Scene> scene) {
+    Inspector::Log(TextFormat("Loaded Scene: %s", scene->GetName().c_str()));
     currentScene = std::move(scene);
   }
 
