@@ -49,6 +49,10 @@ if(EMSCRIPTEN)
     )
     target_include_directories(raylib INTERFACE ${raylib_SOURCE_DIR}/src)
 else()
+
+    set(GLFW_BUILD_X11 OFF CACHE BOOL "" FORCE)
+    set(GLFW_BUILD_WAYLAND ON CACHE BOOL "" FORCE)
+
     find_package(raylib QUIET)
     if(NOT raylib_FOUND)
         FetchContent_Declare(
