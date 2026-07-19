@@ -130,3 +130,13 @@ int InputManager::GetNextEmptyPlayerSlot() {
 InputManager::PlayerInput InputManager::GetPlayerInfo(int playerIdx) {
   return players[playerIdx];
 }
+
+const char *InputManager::GetFriendlyName(int playerIdx) {
+  PlayerInput *player = &players[playerIdx];
+
+  if (player->isKeyboard) {
+    return TextFormat("Keyboard %d", player->inputIdx);
+  } else {
+    return GetGamepadName(player->inputIdx);
+  }
+}

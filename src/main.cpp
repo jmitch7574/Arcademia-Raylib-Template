@@ -9,8 +9,8 @@
 #include "scene_manager.hpp"
 #include <vector>
 
-#define WINDOW_WIDTH 1280
-#define WINDOW_HEIGHT 720
+#define WINDOW_WIDTH 1920
+#define WINDOW_HEIGHT 1080
 #define WINDOW_NAME "Arcademia Game"
 #define TARGET_FPS 60
 

@@ -1,4 +1,5 @@
 #pragma once
+#include "scene.hpp"
 #include <raylib.h>
 
 #define MAX_PLAYERS 4
@@ -30,10 +31,10 @@ namespace InputManager {
 
   enum EngineAxis {
     AXIS_INVALID       = -1,
-    AXIS_LEFTSTICK_X   = GAMEPAD_AXIS_LEFT_X,
-    AXIS_LEFTSTICK_Y   = GAMEPAD_AXIS_LEFT_Y,
-    AXIS_RIGHTSTICK_X  = GAMEPAD_AXIS_RIGHT_X,
-    AXIS_RIGHTSTICK_Y  = GAMEPAD_AXIS_RIGHT_Y,
+    AXIS_LEFT_STICK_X  = GAMEPAD_AXIS_LEFT_X,
+    AXIS_LEFT_STICK_Y  = GAMEPAD_AXIS_LEFT_Y,
+    AXIS_RIGHT_STICK_X = GAMEPAD_AXIS_RIGHT_X,
+    AXIS_RIGHT_STICK_Y = GAMEPAD_AXIS_RIGHT_Y,
     AXIS_LEFT_TRIGGER  = GAMEPAD_AXIS_LEFT_TRIGGER,
     AXIS_RIGHT_TRIGGER = GAMEPAD_AXIS_RIGHT_TRIGGER
   };
@@ -74,15 +75,19 @@ namespace InputManager {
   bool IsThereAvailablePlayerSlot();
   int GetNextEmptyPlayerSlot();
   PlayerInput GetPlayerInfo(int playerIdx);
+  const char *GetFriendlyName(int playerIdx);
 
-  // Reading Data
-  bool IsActionPressed(int playerIdx, const ButtonAction &action);
-  bool IsActionDown(int playerIdx, const ButtonAction &action);
-  bool IsActionReleased(int playerIdx, const ButtonAction &action);
-  float GetAxis(int playerIdx, const AxisAction &action);
+  class GamepadDebugScene : public Scene {
+  public:
+    GamepadDebugScene();
+    ~GamepadDebugScene();
+    std::string GetName() const override { return "GamepadDebug"; }
 
-  void BindKeyboard(int playerIdx, int keyboardIdx);
+    void Update() override;
+    void Draw() override;
 
-  bool IsButtonDown(int playerIdx, EngineButton btn);
-  float GetAxis(int playerIdx, EngineAxis axis);
+  private:
+    Texture2D xboxTex;
+    int gamepad;
+  };
 } // namespace InputManager

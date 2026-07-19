@@ -1,10 +1,13 @@
 #include "inspector.hpp"
+#include "engine/input/action_map.hpp"
 #include "engine/input/input_manager.hpp"
 #include "game_renderer.hpp"
 #include "imgui.h"
 #include "raylib.h"
 #include "rlImGui.h"
+#include "scene_manager.hpp"
 #include <algorithm>
+#include <memory>
 #include <time.h>
 #include <vector>
 
@@ -207,10 +210,22 @@ void Inspector::DrawInputTab() {
     ImGui::SeparatorText("Overall Details");
     ImGui::Text("Player Count: %d", InputManager::GetTotalPlayerCount());
 
+    ImGui::SeparatorText("Input Testing");
+
+    if (ImGui::Button("Gamepad Input")) {
+      sceneManager.SetScene(
+          std::make_unique<InputManager::GamepadDebugScene>());
+    }
+
+    if (ImGui::Button("Action Map Debug")) {
+      sceneManager.SetScene(std::make_unique<ActionMap::ActionDebugScene>());
+    }
+
     for (int i = 0; i < MAX_PLAYERS; i++) {
       InputManager::PlayerInput player = InputManager::GetPlayerInfo(i);
       if (player.isActive) {
         ImGui::SeparatorText(TextFormat("Player %d", i + 1));
+        ImGui::Text("Device: %s", InputManager::GetFriendlyName(i));
         ImGui::Text("Is Keyboard: %d", player.isKeyboard);
         ImGui::Text("Input Device: %d", player.inputIdx);
       }
