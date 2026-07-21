@@ -25,4 +25,5 @@ private:
   Renderer::Viewport viewport;
   Texture2D controllerMicro;
   Texture2D keyboardMicro;
+  Texture2D arcadeMicro;
 };

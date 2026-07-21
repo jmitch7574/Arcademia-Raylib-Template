@@ -47,6 +47,7 @@ ControllerConnectScene::ControllerConnectScene(
 
   keyboardMicro   = LoadTexture("resources/engine/input/keyboard_micro.png");
   controllerMicro = LoadTexture("resources/engine/input/controller_micro.png");
+  arcadeMicro     = LoadTexture("resources/engine/input/arcade_micro.png");
 }
 
 ControllerConnectScene::~ControllerConnectScene() {
@@ -143,6 +144,7 @@ void ControllerConnectScene::Draw() {
                       TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP,
                       Color(255, 255, 255, alpha));
 
+#ifndef ARCADEMIA
       std::string friendlyName = InputManager::GetFriendlyName(i);
       if (friendlyName.length() > 10) {
         friendlyName = friendlyName.substr(0, 10) + "...";
@@ -151,8 +153,13 @@ void ControllerConnectScene::Draw() {
       DrawTextAligned(friendlyName.c_str(), 10, Vector2(centerX, y + 35),
                       TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP,
                       Color(255, 255, 255, alpha));
+#endif
 
       Texture2D targetTex = player.isKeyboard ? keyboardMicro : controllerMicro;
+
+#ifdef ARCADEMIA
+      targetTex = arcadeMicro;
+#endif
 
       float scale = 1.5f - std::clamp(player.timeSinceIdentifyingInput * 2.0f,
                                       0.0f, 0.5f);
